@@ -31,7 +31,17 @@ import com.google.ux.material.libmonet.scheme.Variant;
 // AndroidManifest with an SDK set higher than 14.
 @SuppressWarnings({"AndroidJdkLibsChecker", "NewApi"})
 public final class MaterialDynamicColors {
-  public MaterialDynamicColors() {}
+  /** Optionally use fidelity on most color schemes. */
+  private final boolean isExtendedFidelity;
+
+  public MaterialDynamicColors() {
+    this.isExtendedFidelity = false;
+  }
+
+  // Temporary constructor to support extended fidelity experiment.
+  public MaterialDynamicColors(boolean isExtendedFidelity) {
+    this.isExtendedFidelity = isExtendedFidelity;
+  }
 
   @NonNull
   public DynamicColor highestSurface(@NonNull DynamicScheme s) {
@@ -909,12 +919,17 @@ public final class MaterialDynamicColors {
         "text_hint_inverse", (s) -> s.neutralPalette, (s) -> s.isDark ? 10.0 : 90.0);
   }
 
-  private static ViewingConditions viewingConditionsForAlbers(DynamicScheme scheme) {
-    return ViewingConditions.defaultWithBackgroundLstar(scheme.isDark ? 30.0 : 80.0);
+  private boolean isFidelity(DynamicScheme scheme) {
+    if (this.isExtendedFidelity
+        && scheme.variant != Variant.MONOCHROME
+        && scheme.variant != Variant.NEUTRAL) {
+      return true;
+    }
+    return scheme.variant == Variant.FIDELITY || scheme.variant == Variant.CONTENT;
   }
 
-  private static boolean isFidelity(DynamicScheme scheme) {
-    return scheme.variant == Variant.FIDELITY || scheme.variant == Variant.CONTENT;
+  private static ViewingConditions viewingConditionsForAlbers(DynamicScheme scheme) {
+    return ViewingConditions.defaultWithBackgroundLstar(scheme.isDark ? 30.0 : 80.0);
   }
 
   private static boolean isMonochrome(DynamicScheme scheme) {
