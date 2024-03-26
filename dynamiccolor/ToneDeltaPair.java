@@ -16,7 +16,7 @@
 
 package com.google.ux.material.libmonet.dynamiccolor;
 
-import androidx.annotation.NonNull;
+import android.annotation.NonNull;
 
 /**
  * Documents a constraint between two DynamicColors, in which their tones must have a certain
@@ -88,7 +88,6 @@ public final class ToneDeltaPair {
     return roleB;
   }
 
-  @NonNull
   public double getDelta() {
     return delta;
   }
@@ -98,7 +97,6 @@ public final class ToneDeltaPair {
     return polarity;
   }
 
-  @NonNull
   public boolean getStayTogether() {
     return stayTogether;
   }

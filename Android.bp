@@ -20,12 +20,9 @@ package {
 java_library {
     name: "libmonet",
     static_libs: [
-        "androidx.annotation_annotation",
-        "androidx.core_core",
         "error_prone_annotations",
     ],
     srcs: [
         "**/*.java",
-        "**/*.kt",
     ],
 }
