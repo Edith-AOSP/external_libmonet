@@ -15,6 +15,8 @@
  */
 package com.google.ux.material.libmonet.scheme;
 
+import com.google.ux.material.libmonet.dynamiccolor.DynamicScheme;
+import com.google.ux.material.libmonet.dynamiccolor.Variant;
 import com.google.ux.material.libmonet.hct.Hct;
 import com.google.ux.material.libmonet.palettes.TonalPalette;
 
