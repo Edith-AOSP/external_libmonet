@@ -19,6 +19,8 @@ package com.google.ux.material.libmonet.scheme;
 import static java.lang.Math.max;
 
 import com.google.ux.material.libmonet.dislike.DislikeAnalyzer;
+import com.google.ux.material.libmonet.dynamiccolor.DynamicScheme;
+import com.google.ux.material.libmonet.dynamiccolor.Variant;
 import com.google.ux.material.libmonet.hct.Hct;
 import com.google.ux.material.libmonet.palettes.TonalPalette;
 import com.google.ux.material.libmonet.temperature.TemperatureCache;
