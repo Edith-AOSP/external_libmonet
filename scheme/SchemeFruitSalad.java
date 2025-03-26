@@ -15,11 +15,13 @@
  */
 package com.google.ux.material.libmonet.scheme;
 
+import static com.google.ux.material.libmonet.dynamiccolor.DynamicScheme.Platform.PHONE;
+
+import com.google.ux.material.libmonet.dynamiccolor.ColorSpec.SpecVersion;
+import com.google.ux.material.libmonet.dynamiccolor.ColorSpecs;
 import com.google.ux.material.libmonet.dynamiccolor.DynamicScheme;
 import com.google.ux.material.libmonet.dynamiccolor.Variant;
 import com.google.ux.material.libmonet.hct.Hct;
-import com.google.ux.material.libmonet.palettes.TonalPalette;
-import com.google.ux.material.libmonet.utils.MathUtils;
 
 /** A playful theme - the source color's hue does not appear in the theme. */
 public class SchemeFruitSalad extends DynamicScheme {
@@ -29,12 +31,18 @@ public class SchemeFruitSalad extends DynamicScheme {
         Variant.FRUIT_SALAD,
         isDark,
         contrastLevel,
-        TonalPalette.fromHueAndChroma(
-            MathUtils.sanitizeDegreesDouble(sourceColorHct.getHue() - 50.0), 48.0),
-        TonalPalette.fromHueAndChroma(
-            MathUtils.sanitizeDegreesDouble(sourceColorHct.getHue() - 50.0), 36.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 36.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 10.0),
-        TonalPalette.fromHueAndChroma(sourceColorHct.getHue(), 16.0));
+        ColorSpecs.get(SpecVersion.SPEC_2021)
+            .getPrimaryPalette(Variant.FRUIT_SALAD, sourceColorHct, isDark, PHONE, contrastLevel),
+        ColorSpecs.get(SpecVersion.SPEC_2021)
+            .getSecondaryPalette(Variant.FRUIT_SALAD, sourceColorHct, isDark, PHONE, contrastLevel),
+        ColorSpecs.get(SpecVersion.SPEC_2021)
+            .getTertiaryPalette(Variant.FRUIT_SALAD, sourceColorHct, isDark, PHONE, contrastLevel),
+        ColorSpecs.get(SpecVersion.SPEC_2021)
+            .getNeutralPalette(Variant.FRUIT_SALAD, sourceColorHct, isDark, PHONE, contrastLevel),
+        ColorSpecs.get(SpecVersion.SPEC_2021)
+            .getNeutralVariantPalette(
+                Variant.FRUIT_SALAD, sourceColorHct, isDark, PHONE, contrastLevel),
+        ColorSpecs.get(SpecVersion.SPEC_2021)
+            .getErrorPalette(Variant.FRUIT_SALAD, sourceColorHct, isDark, PHONE, contrastLevel));
   }
 }
