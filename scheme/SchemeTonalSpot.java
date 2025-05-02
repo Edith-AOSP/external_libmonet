@@ -15,8 +15,6 @@
  */
 package com.google.ux.material.libmonet.scheme;
 
-import static com.google.ux.material.libmonet.dynamiccolor.DynamicScheme.Platform.PHONE;
-
 import com.google.ux.material.libmonet.dynamiccolor.ColorSpec.SpecVersion;
 import com.google.ux.material.libmonet.dynamiccolor.ColorSpecs;
 import com.google.ux.material.libmonet.dynamiccolor.DynamicScheme;
@@ -25,9 +23,6 @@ import com.google.ux.material.libmonet.hct.Hct;
 
 /** A calm theme, sedated colors that aren't particularly chromatic. */
 public class SchemeTonalSpot extends DynamicScheme {
-
-  private static final SpecVersion DEFAULT_SPEC_VERSION = SpecVersion.SPEC_2025;
-  private static final Platform DEFAULT_PLATFORM = PHONE;
 
   public SchemeTonalSpot(Hct sourceColorHct, boolean isDark, double contrastLevel) {
     this(sourceColorHct, isDark, contrastLevel, DEFAULT_SPEC_VERSION, DEFAULT_PLATFORM);
