@@ -30,6 +30,7 @@ public final class TonalPalette {
   Hct keyColor;
   double hue;
   double chroma;
+  PaletteTuning tuning;
 
   /**
    * Create tones using the HCT hue and chroma from a color.
@@ -48,7 +49,7 @@ public final class TonalPalette {
    * @return Tones matching that color's hue and chroma.
    */
   public static TonalPalette fromHct(Hct hct) {
-    return new TonalPalette(hct.getHue(), hct.getChroma(), hct);
+    return new TonalPalette(hct.getHue(), hct.getChroma(), hct, null);
   }
 
   /**
@@ -60,14 +61,28 @@ public final class TonalPalette {
    */
   public static TonalPalette fromHueAndChroma(double hue, double chroma) {
     final Hct keyColor = new KeyColor(hue, chroma).create();
-    return new TonalPalette(hue, chroma, keyColor);
+    return new TonalPalette(hue, chroma, keyColor, null);
   }
 
-  private TonalPalette(double hue, double chroma, Hct keyColor) {
+  /**
+   * Create tones from a defined HCT hue and chroma with relative palette adjustments.
+   *
+   * @param hue HCT hue
+   * @param chroma HCT chroma
+   * @param tuning The chroma and tone adjustments applied to every color in the palette.
+   * @return Tones matching hue and chroma, adjusted by {@code tuning}.
+   */
+  public static TonalPalette fromHueAndChroma(double hue, double chroma, PaletteTuning tuning) {
+    final Hct keyColor = new KeyColor(hue, chroma).create();
+    return new TonalPalette(hue, chroma, keyColor, tuning);
+  }
+
+  private TonalPalette(double hue, double chroma, Hct keyColor, PaletteTuning tuning) {
     cache = new HashMap<>();
     this.hue = hue;
     this.chroma = chroma;
     this.keyColor = keyColor;
+    this.tuning = tuning;
   }
 
   /**
@@ -81,8 +96,10 @@ public final class TonalPalette {
     if (color == null) {
       if (tone == 99 && Hct.isYellow(this.hue)) {
         color = averageArgb(this.tone(98), this.tone(100));
-      } else {
+      } else if (tuning == null || tuning.isIdentity()) {
         color = Hct.from(this.hue, this.chroma, tone).toInt();
+      } else {
+        color = getHct(tone).toInt();
       }
       cache.put(tone, color);
     }
@@ -91,12 +108,25 @@ public final class TonalPalette {
 
   /** Given a tone, use hue and chroma of palette to create a color, and return it as HCT. */
   public Hct getHct(double tone) {
-    return Hct.from(this.hue, this.chroma, tone);
+    if (tuning == null || tuning.isIdentity()) {
+      return Hct.from(this.hue, this.chroma, tone);
+    }
+    return Hct.from(this.hue, this.chroma * tuning.getChromaFactor(), tuning.getTone(tone));
   }
 
   /** The chroma of the Tonal Palette, in HCT. Ranges from 0 to ~130 (for sRGB gamut). */
   public double getChroma() {
     return this.chroma;
+  }
+
+  /** Applies this palette's relative chroma adjustment to a chroma value. */
+  public double getTunedChroma(double chroma) {
+    return tuning == null ? chroma : chroma * tuning.getChromaFactor();
+  }
+
+  /** Applies this palette's relative tone adjustment to a tone value. */
+  public double getTunedTone(double tone) {
+    return tuning == null ? tone : tuning.getTone(tone);
   }
 
   /** The hue of the Tonal Palette, in HCT. Ranges from 0 to 360. */

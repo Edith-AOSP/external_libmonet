@@ -1573,11 +1573,11 @@ class ColorSpec2025 extends ColorSpec2021 {
     // For example, this enables colors with standard tone of T90, which has limited chroma, to
     // "recover" intended chroma as contrast increases.
     TonalPalette palette = color.palette.apply(scheme);
-    double tone = getTone(scheme, color);
+    double tone = palette.getTunedTone(getTone(scheme, color));
     double hue = palette.getHue();
     double chromaMultiplier =
         color.chromaMultiplier == null ? 1 : color.chromaMultiplier.apply(scheme);
-    double chroma = palette.getChroma() * chromaMultiplier;
+    double chroma = palette.getTunedChroma(palette.getChroma() * chromaMultiplier);
 
     return Hct.from(hue, chroma, tone);
   }
